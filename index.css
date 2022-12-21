@@ -2,3 +2,76 @@
     font-size: 16px;
     font-family: sans-serif;
 }
+
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.game-title p {
+    font-size:  50px;
+    font-weight: 800;
+    font-style: italic;
+    margin: 0;
+    padding: 20px;
+}
+
+.start-game {
+    width: 200px;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: salmon;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    box-shadow: -2px 4px 2px rgb(182, 69, 56);
+    /* transition: all 0.5s linear; */
+}
+
+.start-game:hover {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 2px rgb(182, 69, 56);
+    background-color: rgb(248, 99, 82);
+    font-style: italic;
+}
+
+.player-round {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.game-grid {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(3, minmax(100px, 200px));
+    grid-template-rows: repeat(3, minmax(50px, 200px));
+    border: 4px solid rgb(244, 205, 201);
+    border-radius: 10px;
+    padding: 20px
+}
+
+.game-grid-item {
+    display: grid;
+    place-items: center;
+}
+
+.border-v {
+    border-left: 4px solid black;
+    border-right: 4px solid black;
+}
+
+.border-h {
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+}
+
+.game-symbol {
+    width: 50%
+}
