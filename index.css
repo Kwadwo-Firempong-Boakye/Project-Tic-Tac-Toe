@@ -1,6 +1,13 @@
 :root {
     font-size: 16px;
     font-family: sans-serif;
+    background: rgb(245, 245, 245);
+
+}
+
+body {
+    margin: 0;
+
 }
 
 #game-container {
@@ -19,6 +26,10 @@
     padding: 20px;
 }
 
+.game-title span {
+    color: salmon;
+}
+
 .start-game {
     width: 200px;
     font-size: 20px;
@@ -30,14 +41,13 @@
     border-radius: 5px;
     border: none;
     box-shadow: -2px 4px 2px rgb(182, 69, 56);
-    /* transition: all 0.5s linear; */
+    transition: all 0.3s ease-in-out;
 }
 
-.start-game:hover {
+.start-game-hover:hover {
     transform: translateY(2px);
     box-shadow: 0px 2px 2px rgb(182, 69, 56);
     background-color: rgb(248, 99, 82);
-    font-style: italic;
 }
 
 .sub-display {
@@ -52,9 +62,10 @@
     gap: 5px;
     grid-template-columns: repeat(3, 110px);
     grid-template-rows: repeat(3, 110px);
-    border: 4px solid rgb(244, 205, 201);
+    /* border: 4px solid rgb(244, 205, 201); */
     border-radius: 10px;
-    padding: 20px
+    padding: 20px;
+    transition: all 0.5s ease-in-out;
 }
 
 .game-grid-item {
@@ -74,4 +85,90 @@
 
 .game-symbol {
     width: 50%
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    visibility: hidden;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+    border: none;
+    border-radius: 10px;
+    padding: 30px 20px;
+    background: rgb(54, 54, 54);
+    position: absolute; 
+    z-index: 4;
+    top: 49%; 
+    left: 50%; 
+    transform: translate(-50%,-50%) scale(0); 
+    visibility: hidden;
+    transition: all 0.5s ease-in-out;
+}
+
+.form-heading {
+    text-align: center;
+    font-size: 24px;
+    /* font-style: italic; */
+    color: #fff;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background: rgb(252, 236, 234);
+    font-size: 1.2rem;
+}
+
+input[type="checkbox"] {
+    accent-color: salmon;
+    transform: scale(2);
+    margin-left: 15px;
+}
+
+input:focus {
+    outline: 2px solid salmon;
+}
+
+::placeholder{
+    font-size: 1rem;
+}
+
+label {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.05rem;
+}
+
+label span {
+    color: salmon;
+    white-space: pre;
+    font-size: 1.3rem;
+}
+
+.submit {
+    font-size: 1.2rem;
+    padding: 15px;
+    margin-top: 20px;
+    font-weight: bold;
+    background: salmon;
+    border: none;
+    border-radius: 5px;
+}
+
+.submit:hover {
+    background: rgb(255, 104, 84);
+
 }
