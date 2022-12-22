@@ -30,19 +30,19 @@
 
 //Create Player API
 const playerFactory = () => {
-	let playerName = "";
-	let playerSymbol = "";
+	let _playerName = "";
+	let _playerSymbol = "";
 	const getPlayerName = () => {
-		return playerName;
+		return _playerName;
 	};
 	const getPlayerSymbol = () => {
-		return playerSymbol;
+		return _playerSymbol;
 	};
 	const setPlayerName = (newName) => {
-		playerName = newName;
+		_playerName = newName;
 	};
 	const setPlayerSymbol = (symbol) => {
-		playerSymbol = symbol;
+		_playerSymbol = symbol;
 	};
 
 	return {
@@ -53,18 +53,70 @@ const playerFactory = () => {
 	};
 };
 
-// Create Game Display
+// Link Game to DOM
 const gameDisplay = (() => {
-	let key = 0;
 	let gameContainer = document.querySelector("#game-container");
 	let gameInfo = document.querySelector(".game-info");
-	let gameGrid = document.querySelectorAll(".game-grid-item");
-	gameGrid.forEach((item) => {
-		item.setAttribute("data-key", key++);
-		item.setAttribute("data-played", "no");
-	});
-
-	return { gameInfo, gameGrid };
+	let startButton = document.querySelector(".start-game");
+	let subDisplay = document.querySelector(".sub-display");
+	let gameGrid = document.querySelector(".game-grid");
+	let gameGridItems = document.querySelectorAll(".game-grid-item");
+	let gameForm = document.querySelector("form");
+	let overlay = document.querySelector(".overlay");
+	return {
+		gameInfo,
+		startButton,
+		subDisplay,
+		gameGrid,
+		gameGridItems,
+		gameForm,
+		overlay,
+	};
 })();
 
-// Create Game Flow
+//Create Game Initiating Function
+const initGame = () => {
+	let _key = 0;
+	gameDisplay.startButton.disabled = true;
+	gameDisplay.startButton.classList.remove("start-game-hover");
+	setTimeout(() => {
+        gameDisplay.overlay.style.visibility = "visible";
+		gameDisplay.gameForm.style.visibility = "visible";
+		gameDisplay.gameForm.style.transform = "translate(-50%,-50%) scale(1)";
+	}, 300);
+	gameDisplay.gameGridItems.forEach((item) => {
+        item.setAttribute("data-key", _key++);
+		item.setAttribute("data-played", "no");
+	});
+};
+
+//Create form disappearing sequence
+const hideForm = () => {
+	gameDisplay.gameForm.style.transform = "translate(-50%,-50%) scale(0)";
+	setTimeout(() => {
+		gameDisplay.gameForm.style.visibility = "hidden";
+		gameDisplay.overlay.style.visibility = "hidden";
+	}, 300);
+	gameDisplay.startButton.disabled = false;
+	gameDisplay.startButton.classList.add("start-game-hover");
+    gameDisplay.gameForm.reset();
+}
+
+// Create game starting protocol
+const startGame = (e) => {
+    e.preventDefault()
+    hideForm()
+    gameDisplay.gameGrid.style.border = "4px solid salmon";
+    gameDisplay.startButton.style.width = "375px";
+    gameDisplay.startButton.style.background = "rgb(255, 104, 84)";
+    gameDisplay.startButton.style.padding = "20px";
+    gameDisplay.startButton.innerHTML = "Player 1, its your turn!";
+}
+
+// Create Game Event Listeners
+const gameEvents = (() => {
+	gameDisplay.startButton.addEventListener("click", initGame);
+	gameDisplay.overlay.addEventListener("click", hideForm);
+    gameDisplay.gameForm.addEventListener("submit", startGame);
+	// console.log(gameDisplay.startButton);
+})();
