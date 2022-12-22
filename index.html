@@ -12,11 +12,11 @@
     <main id="game-container">
 
         <div class="game-title">
-            <p>Tic-Tac-Toe</p>
+            <p>Tic-<span>Tac</span>-Toe</p>
         </div>
 
         <div class="game-info">
-            <button class="start-game">Start Game</button>
+            <button class="start-game start-game-hover">Start Game</button>
             <p class="sub-display"></p>
         </div>
 
@@ -53,5 +53,20 @@
         </div>
 
     </main>
+    <div class="overlay"></div>
+    <form action="">
+        <p class="form-heading">Fill in the details</p>
+        <label for="player1">Player 1 Name<span>   X</span></label>
+        <input type="text" maxlength="20" id="player1" name="player1" placeholder="Enter Player-1's name" required>
+        <br>
+        <label for="player2">Player 2 Name<span>   O</span></label>
+        <input type="text" maxlength="20" id="player2" name="player2" placeholder="Enter Player-2 or Computer's name">
+        <br>
+        <label for="computer">Play against Computer?
+        <input type="checkbox" id="computer" value="play-with-computer">
+        </label>
+        <button type="submit" class="submit">Let's Tic-Tac-Toe!</button>
+    </form>
+
 </body>
 </html>
