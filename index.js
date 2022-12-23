@@ -62,6 +62,9 @@ const gameDisplay = (() => {
 	let gameGrid = document.querySelector(".game-grid");
 	let gameGridItems = document.querySelectorAll(".game-grid-item");
 	let gameForm = document.querySelector("form");
+	let checkBox = gameForm.querySelector('input[type="checkbox"]');
+	let player1 = gameForm.querySelector('input[name="player1"]');
+	let player2 = gameForm.querySelector('input[name="player2"]');
 	let overlay = document.querySelector(".overlay");
 	return {
 		gameInfo,
@@ -71,21 +74,24 @@ const gameDisplay = (() => {
 		gameGridItems,
 		gameForm,
 		overlay,
+		checkBox,
+        player1,
+		player2,
 	};
 })();
 
-//Create Game Initiating Function
-const initGame = () => {
+//Create Game Player Details Collection Form
+const showForm = () => {
 	let _key = 0;
 	gameDisplay.startButton.disabled = true;
 	gameDisplay.startButton.classList.remove("start-game-hover");
 	setTimeout(() => {
-        gameDisplay.overlay.style.visibility = "visible";
+		gameDisplay.overlay.style.visibility = "visible";
 		gameDisplay.gameForm.style.visibility = "visible";
 		gameDisplay.gameForm.style.transform = "translate(-50%,-50%) scale(1)";
 	}, 300);
 	gameDisplay.gameGridItems.forEach((item) => {
-        item.setAttribute("data-key", _key++);
+		item.setAttribute("data-key", _key++);
 		item.setAttribute("data-played", "no");
 	});
 };
@@ -99,24 +105,54 @@ const hideForm = () => {
 	}, 300);
 	gameDisplay.startButton.disabled = false;
 	gameDisplay.startButton.classList.add("start-game-hover");
-    gameDisplay.gameForm.reset();
-}
+	gameDisplay.gameForm.reset();
+};
 
 // Create game starting protocol
-const startGame = (e) => {
-    e.preventDefault()
-    hideForm()
-    gameDisplay.gameGrid.style.border = "4px solid salmon";
-    gameDisplay.startButton.style.width = "375px";
-    gameDisplay.startButton.style.background = "rgb(255, 104, 84)";
-    gameDisplay.startButton.style.padding = "20px";
-    gameDisplay.startButton.innerHTML = "Player 1, its your turn!";
+const validateForm = () => {
+	if (!gameDisplay.checkBox.checked) {
+		if (gameDisplay.player2.value == "") {
+			gameDisplay.player2.setCustomValidity("Enter Player 2 Name");
+			gameDisplay.player2.reportValidity();
+		} 
+	} else {
+        createPlayers()
+    }
+    
+        // player1Value,
+        // player2Value
+
+	// if (gameDisplay.checkBox.checked) {
+	// 	gameDisplay.player2.removeAttribute("required");
+	// 	hideForm();
+	// 	gameDisplay.gameGrid.style.border = "4px solid salmon";
+	// 	gameDisplay.startButton.style.width = "375px";
+	// 	gameDisplay.startButton.style.background = "rgb(255, 104, 84)";
+	// 	gameDisplay.startButton.style.padding = "20px";
+	// 	gameDisplay.startButton.innerHTML = "Player 1, its your turn!";
+	// }
+};
+
+const disableInput = (e) => {
+    if (e.target.checked) {
+        gameDisplay.player2.disabled = true;
+        gameDisplay.player2.classList.add("grey-out");
+    } else {
+        gameDisplay.player2.disabled = false;
+        gameDisplay.player2.classList.remove("grey-out");
+    }
 }
 
 // Create Game Event Listeners
 const gameEvents = (() => {
-	gameDisplay.startButton.addEventListener("click", initGame);
+	gameDisplay.startButton.addEventListener("click", showForm);
+    gameDisplay.checkBox.addEventListener("change", disableInput);
 	gameDisplay.overlay.addEventListener("click", hideForm);
-    gameDisplay.gameForm.addEventListener("submit", startGame);
+	gameDisplay.gameForm.addEventListener("submit", (e) => {
+	    e.preventDefault();
+        validateForm();  
+    })
 	// console.log(gameDisplay.startButton);
 })();
+
+
