@@ -172,3 +172,7 @@ label span {
     background: rgb(255, 104, 84);
 
 }
+
+.grey-out {
+    background: gray !important;
+}
