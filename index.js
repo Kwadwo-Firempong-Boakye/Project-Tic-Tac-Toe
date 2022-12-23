@@ -54,14 +54,26 @@ const playerFactory = () => {
 };
 
 const gameBoard = () => {
-    const _player1Array = [];
-    const _player2Array = [];
-    const addToArray = (arrName, val) => {
-        arrName.push(val);
-    }
-    return {
-        addToArray
-    }
+	const _player1Array = [];
+	const _player2Array = [];
+	const addToPlayer1 = (val) => {
+		_player1Array.push(val);
+	};
+	const addToPlayer2 = (val) => {
+		_player2Array.push(val);
+	};
+    const getPlayer1Array = () => {
+        return _player1Array;
+    };
+    const getPlayer2Array = () => {
+        return _player2Array;
+    };
+	return {
+		addToPlayer1,
+		addToPlayer2,
+        getPlayer1Array,
+        getPlayer2Array
+	};
 };
 
 // Link Game to DOM
