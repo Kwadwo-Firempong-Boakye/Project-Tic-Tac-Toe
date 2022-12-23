@@ -53,6 +53,7 @@ const playerFactory = () => {
 	};
 };
 
+//Create Game Board API
 const gameBoard = () => {
 	const _player1Array = [];
 	const _player2Array = [];
@@ -76,7 +77,7 @@ const gameBoard = () => {
 	};
 };
 
-// Link Game to DOM
+// Link Game to DOM in IIFE
 const gameDisplay = (() => {
 	let gameContainer = document.querySelector("#game-container");
 	let gameInfo = document.querySelector(".game-info");
@@ -131,7 +132,7 @@ const hideForm = () => {
 	gameDisplay.gameForm.reset();
 };
 
-// Create game starting protocol
+// Create additional form validation 
 const validateForm = () => {
 	if (!gameDisplay.checkBox.checked) {
 		if (gameDisplay.player2.value == "") {
@@ -156,6 +157,7 @@ const validateForm = () => {
 	// }
 };
 
+// Disable player 2 form input if computer checkbox is checked
 const disableInput = (e) => {
 	if (e.target.checked) {
 		gameDisplay.player2.disabled = true;
@@ -166,7 +168,7 @@ const disableInput = (e) => {
 	}
 };
 
-// Create Game Event Listeners
+// Create Game Event Listeners in IIFE format
 const gameEvents = (() => {
 	gameDisplay.startButton.addEventListener("click", showForm);
 	gameDisplay.checkBox.addEventListener("change", disableInput);
@@ -175,5 +177,4 @@ const gameEvents = (() => {
 		e.preventDefault();
 		validateForm();
 	});
-	// console.log(gameDisplay.startButton);
 })();
