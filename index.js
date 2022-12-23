@@ -53,6 +53,17 @@ const playerFactory = () => {
 	};
 };
 
+const gameBoard = () => {
+    const _player1Array = [];
+    const _player2Array = [];
+    const addToArray = (arrName, val) => {
+        arrName.push(val);
+    }
+    return {
+        addToArray
+    }
+};
+
 // Link Game to DOM
 const gameDisplay = (() => {
 	let gameContainer = document.querySelector("#game-container");
@@ -75,7 +86,7 @@ const gameDisplay = (() => {
 		gameForm,
 		overlay,
 		checkBox,
-        player1,
+		player1,
 		player2,
 	};
 })();
@@ -114,13 +125,13 @@ const validateForm = () => {
 		if (gameDisplay.player2.value == "") {
 			gameDisplay.player2.setCustomValidity("Enter Player 2 Name");
 			gameDisplay.player2.reportValidity();
-		} 
+		}
 	} else {
-        createPlayers()
-    }
-    
-        // player1Value,
-        // player2Value
+		createPlayers();
+	}
+
+	// player1Value,
+	// player2Value
 
 	// if (gameDisplay.checkBox.checked) {
 	// 	gameDisplay.player2.removeAttribute("required");
@@ -134,25 +145,23 @@ const validateForm = () => {
 };
 
 const disableInput = (e) => {
-    if (e.target.checked) {
-        gameDisplay.player2.disabled = true;
-        gameDisplay.player2.classList.add("grey-out");
-    } else {
-        gameDisplay.player2.disabled = false;
-        gameDisplay.player2.classList.remove("grey-out");
-    }
-}
+	if (e.target.checked) {
+		gameDisplay.player2.disabled = true;
+		gameDisplay.player2.classList.add("grey-out");
+	} else {
+		gameDisplay.player2.disabled = false;
+		gameDisplay.player2.classList.remove("grey-out");
+	}
+};
 
 // Create Game Event Listeners
 const gameEvents = (() => {
 	gameDisplay.startButton.addEventListener("click", showForm);
-    gameDisplay.checkBox.addEventListener("change", disableInput);
+	gameDisplay.checkBox.addEventListener("change", disableInput);
 	gameDisplay.overlay.addEventListener("click", hideForm);
 	gameDisplay.gameForm.addEventListener("submit", (e) => {
-	    e.preventDefault();
-        validateForm();  
-    })
+		e.preventDefault();
+		validateForm();
+	});
 	// console.log(gameDisplay.startButton);
 })();
-
-
