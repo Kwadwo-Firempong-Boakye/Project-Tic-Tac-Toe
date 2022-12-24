@@ -62,22 +62,20 @@ const playerFactory = () => {
 	};
 };
 
+//Player Objects
+const player1 = playerFactory();
+const player2 = playerFactory();
+
+
+//Game Flow Logic
 const gameFlow = () => {
-	const totalTurns = 9;
-	const turnCount = 0;
+	const _totalTurns = 9;
+	const _turnCount = 0;
+    const playerTurn = 1;
 
-    let playerValues = validateForm();
-	let player1 = playerFactory();
-	let player2 = playerFactory();
-
-	player1.setPlayerName(playerValues.getPlayer1Value());
-	player1.setPlayerSymbol("x");
-	player2.setPlayerName(playerValues.getPlayer2Value());
-	player2.setPlayerSymbol("o");
 
     let newGame = gameBoard()
 
-    const playerTurn = player1;
     const turnAlternator = () => {
         if (playerTurn == player1) {
             playerTurn = player2;
@@ -85,10 +83,78 @@ const gameFlow = () => {
             playerTurn = player1
         }
     }
+
+};
+
+//Create Game Player Details Collection Form
+const showForm = () => {
+	let _key = 0;
+	gameDOM.startButton.disabled = true;
+	gameDOM.startButton.classList.remove("start-game-hover");
+	setTimeout(() => {
+		gameDOM.overlay.style.visibility = "visible";
+		gameDOM.gameForm.style.visibility = "visible";
+		gameDOM.gameForm.style.transform = "translate(-50%,-50%) scale(1)";
+	}, 300);
+	gameDOM.gameGridItems.forEach((item) => {
+		item.setAttribute("data-key", _key++);
+		item.setAttribute("data-played", "no");
+	});
+};
+
+//Create form disappearing sequence
+const hideForm = () => {
+	gameDOM.gameForm.style.transform = "translate(-50%,-50%) scale(0)";
+	setTimeout(() => {
+		gameDOM.gameForm.style.visibility = "hidden";
+		gameDOM.overlay.style.visibility = "hidden";
+	}, 300);
+	gameDOM.startButton.disabled = false;
+	gameDOM.startButton.classList.add("start-game-hover");
+	// gameDOM.gameForm.reset();
+};
+
+// Create additional form validation and export player values
+const validateForm = () => {
+	player1.setPlayerName(gameDOM.player1.value);
+	player1.setPlayerSymbol("x");
+	if (!gameDOM.checkBox.checked) {
+		if (gameDOM.player2.value == "") {
+			gameDOM.player2.setCustomValidity("Enter Player 2 Name");
+			gameDOM.player2.reportValidity();
+		} else {
+            player2.setPlayerName(gameDOM.player2.value);
+	        player2.setPlayerSymbol("o");
+            hideForm();
+            gameFlow();
+		}
+	} else {
+        player2.setPlayerName("Computer");
+        player2.setPlayerSymbol("o");
+        hideForm();
+        gameFlow();
+	}
+	// 	gameDOM.gameGrid.style.border = "4px solid salmon";
+	// 	gameDOM.startButton.style.width = "375px";
+	// 	gameDOM.startButton.style.background = "rgb(255, 104, 84)";
+	// 	gameDOM.startButton.style.padding = "20px";
+	// 	gameDOM.startButton.innerHTML = "Player 1, its your turn!";
+	// }
+};
+
+// Disable player 2 form input if computer checkbox is checked
+const disableInput = (e) => {
+	if (e.target.checked) {
+		gameDOM.player2.disabled = true;
+		gameDOM.player2.classList.add("grey-out");
+	} else {
+		gameDOM.player2.disabled = false;
+		gameDOM.player2.classList.remove("grey-out");
+	}
 };
 
 // Link Game to DOM in IIFE
-const gameDisplay = (() => {
+const gameDOM = (() => {
 	let gameContainer = document.querySelector("#game-container");
 	let gameInfo = document.querySelector(".game-info");
 	let startButton = document.querySelector(".start-game");
@@ -114,82 +180,12 @@ const gameDisplay = (() => {
 	};
 })();
 
-//Create Game Player Details Collection Form
-const showForm = () => {
-	let _key = 0;
-	gameDisplay.startButton.disabled = true;
-	gameDisplay.startButton.classList.remove("start-game-hover");
-	setTimeout(() => {
-		gameDisplay.overlay.style.visibility = "visible";
-		gameDisplay.gameForm.style.visibility = "visible";
-		gameDisplay.gameForm.style.transform = "translate(-50%,-50%) scale(1)";
-	}, 300);
-	gameDisplay.gameGridItems.forEach((item) => {
-		item.setAttribute("data-key", _key++);
-		item.setAttribute("data-played", "no");
-	});
-};
-
-//Create form disappearing sequence
-const hideForm = () => {
-	gameDisplay.gameForm.style.transform = "translate(-50%,-50%) scale(0)";
-	setTimeout(() => {
-		gameDisplay.gameForm.style.visibility = "hidden";
-		gameDisplay.overlay.style.visibility = "hidden";
-	}, 300);
-	gameDisplay.startButton.disabled = false;
-	gameDisplay.startButton.classList.add("start-game-hover");
-	// gameDisplay.gameForm.reset();
-};
-
-// Create additional form validation and export player values
-const validateForm = () => {
-	let _player1Value = gameDisplay.player1.value;
-	let _player2Value;
-	if (!gameDisplay.checkBox.checked) {
-		if (gameDisplay.player2.value == "") {
-			gameDisplay.player2.setCustomValidity("Enter Player 2 Name");
-			gameDisplay.player2.reportValidity();
-		} else {
-			_player2Value = gameDisplay.player2.value;
-		}
-	} else {
-		_player2Value = "Computer";
-	}
-
-	const getPlayer1Value = () => _player1Value;
-	const getPlayer2Value = () => _player2Value;
-    hideForm();
-    gameFlow();
-	return {
-		getPlayer1Value,
-		getPlayer2Value,
-	};
-	// 	gameDisplay.gameGrid.style.border = "4px solid salmon";
-	// 	gameDisplay.startButton.style.width = "375px";
-	// 	gameDisplay.startButton.style.background = "rgb(255, 104, 84)";
-	// 	gameDisplay.startButton.style.padding = "20px";
-	// 	gameDisplay.startButton.innerHTML = "Player 1, its your turn!";
-	// }
-};
-
-// Disable player 2 form input if computer checkbox is checked
-const disableInput = (e) => {
-	if (e.target.checked) {
-		gameDisplay.player2.disabled = true;
-		gameDisplay.player2.classList.add("grey-out");
-	} else {
-		gameDisplay.player2.disabled = false;
-		gameDisplay.player2.classList.remove("grey-out");
-	}
-};
-
 // Create Game Event Listeners in IIFE format
 const gameEvents = (() => {
-	gameDisplay.startButton.addEventListener("click", showForm);
-	gameDisplay.checkBox.addEventListener("change", disableInput);
-	gameDisplay.overlay.addEventListener("click", hideForm);
-	gameDisplay.gameForm.addEventListener("submit", (e) => {
+	gameDOM.startButton.addEventListener("click", showForm);
+	gameDOM.checkBox.addEventListener("change", disableInput);
+	gameDOM.overlay.addEventListener("click", hideForm);
+	gameDOM.gameForm.addEventListener("submit", (e) => {
 		e.preventDefault();
 		validateForm();
 	});
