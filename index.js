@@ -30,8 +30,8 @@
 
 //Create Player API
 const playerFactory = () => {
-	let _playerName = "";
-	let _playerSymbol = "";
+	let _playerName;
+	let _playerSymbol;
 	const getPlayerName = () => {
 		return _playerName;
 	};
@@ -63,18 +63,43 @@ const gameBoard = () => {
 	const addToPlayer2 = (val) => {
 		_player2Array.push(val);
 	};
-    const getPlayer1Array = () => {
-        return _player1Array;
-    };
-    const getPlayer2Array = () => {
-        return _player2Array;
-    };
+	const getPlayer1Array = () => {
+		return _player1Array;
+	};
+	const getPlayer2Array = () => {
+		return _player2Array;
+	};
 	return {
 		addToPlayer1,
 		addToPlayer2,
-        getPlayer1Array,
-        getPlayer2Array
+		getPlayer1Array,
+		getPlayer2Array,
 	};
+};
+
+const gameFlow = () => {
+	const totalTurns = 9;
+	const turnCount = 0;
+
+    let playerValues = validateForm();
+	let player1 = playerFactory();
+	let player2 = playerFactory();
+
+	player1.setPlayerName(playerValues.getPlayer1Value());
+	player1.setPlayerSymbol("x");
+	player2.setPlayerName(playerValues.getPlayer2Value());
+	player2.setPlayerSymbol("o");
+
+    let newGame = gameBoard()
+    
+    const playerTurn = player1;
+    const turnAlternator = () => {
+        if (playerTurn == player1) {
+            playerTurn = player2;
+        } else {
+            playerTurn = player1
+        }
+    }
 };
 
 // Link Game to DOM in IIFE
@@ -129,26 +154,32 @@ const hideForm = () => {
 	}, 300);
 	gameDisplay.startButton.disabled = false;
 	gameDisplay.startButton.classList.add("start-game-hover");
-	gameDisplay.gameForm.reset();
+	// gameDisplay.gameForm.reset();
 };
 
-// Create additional form validation 
+// Create additional form validation and export player values
 const validateForm = () => {
+	let _player1Value = gameDisplay.player1.value;
+	let _player2Value;
 	if (!gameDisplay.checkBox.checked) {
 		if (gameDisplay.player2.value == "") {
 			gameDisplay.player2.setCustomValidity("Enter Player 2 Name");
 			gameDisplay.player2.reportValidity();
+		} else {
+			_player2Value = gameDisplay.player2.value;
 		}
 	} else {
-		createPlayers();
+		_player2Value = "Computer";
 	}
 
-	// player1Value,
-	// player2Value
-
-	// if (gameDisplay.checkBox.checked) {
-	// 	gameDisplay.player2.removeAttribute("required");
-	// 	hideForm();
+	const getPlayer1Value = () => _player1Value;
+	const getPlayer2Value = () => _player2Value;
+    hideForm();
+    gameFlow();
+	return {
+		getPlayer1Value,
+		getPlayer2Value,
+	};
 	// 	gameDisplay.gameGrid.style.border = "4px solid salmon";
 	// 	gameDisplay.startButton.style.width = "375px";
 	// 	gameDisplay.startButton.style.background = "rgb(255, 104, 84)";
