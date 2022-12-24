@@ -32,6 +32,7 @@
 const playerFactory = () => {
 	let _playerName;
 	let _playerSymbol;
+    let _playerArray = [];
 	const getPlayerName = () => {
 		return _playerName;
 	};
@@ -44,36 +45,20 @@ const playerFactory = () => {
 	const setPlayerSymbol = (symbol) => {
 		_playerSymbol = symbol;
 	};
+    const addToPlayer = (val) => {
+		_playerArray.push(val);
+	};
+    const getPlayerArray = () => {
+		return _playerArray;
+	};
 
 	return {
 		getPlayerName,
 		getPlayerSymbol,
 		setPlayerName,
 		setPlayerSymbol,
-	};
-};
-
-//Create Game Board API
-const gameBoard = () => {
-	const _player1Array = [];
-	const _player2Array = [];
-	const addToPlayer1 = (val) => {
-		_player1Array.push(val);
-	};
-	const addToPlayer2 = (val) => {
-		_player2Array.push(val);
-	};
-	const getPlayer1Array = () => {
-		return _player1Array;
-	};
-	const getPlayer2Array = () => {
-		return _player2Array;
-	};
-	return {
-		addToPlayer1,
-		addToPlayer2,
-		getPlayer1Array,
-		getPlayer2Array,
+        addToPlayer,
+        getPlayerArray
 	};
 };
 
@@ -91,7 +76,7 @@ const gameFlow = () => {
 	player2.setPlayerSymbol("o");
 
     let newGame = gameBoard()
-    
+
     const playerTurn = player1;
     const turnAlternator = () => {
         if (playerTurn == player1) {
