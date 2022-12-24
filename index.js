@@ -32,7 +32,7 @@
 const playerFactory = () => {
 	let _playerName;
 	let _playerSymbol;
-    let _playerArray = [];
+	let _playerArray = [];
 	const getPlayerName = () => {
 		return _playerName;
 	};
@@ -45,10 +45,10 @@ const playerFactory = () => {
 	const setPlayerSymbol = (symbol) => {
 		_playerSymbol = symbol;
 	};
-    const addToPlayer = (val) => {
+	const addToPlayer = (val) => {
 		_playerArray.push(val);
 	};
-    const getPlayerArray = () => {
+	const getPlayerArray = () => {
 		return _playerArray;
 	};
 
@@ -57,8 +57,8 @@ const playerFactory = () => {
 		getPlayerSymbol,
 		setPlayerName,
 		setPlayerSymbol,
-        addToPlayer,
-        getPlayerArray
+		addToPlayer,
+		getPlayerArray,
 	};
 };
 
@@ -66,24 +66,19 @@ const playerFactory = () => {
 const player1 = playerFactory();
 const player2 = playerFactory();
 
-
 //Game Flow Logic
 const gameFlow = () => {
 	const _totalTurns = 9;
 	const _turnCount = 0;
-    const playerTurn = 1;
+	const playerTurn = 1;
 
-
-    let newGame = gameBoard()
-
-    const turnAlternator = () => {
-        if (playerTurn == player1) {
-            playerTurn = player2;
-        } else {
-            playerTurn = player1
-        }
-    }
-
+	const turnAlternator = () => {
+		if (playerTurn == player1) {
+			playerTurn = player2;
+		} else {
+			playerTurn = player1;
+		}
+	};
 };
 
 //Create Game Player Details Collection Form
@@ -123,16 +118,16 @@ const validateForm = () => {
 			gameDOM.player2.setCustomValidity("Enter Player 2 Name");
 			gameDOM.player2.reportValidity();
 		} else {
-            player2.setPlayerName(gameDOM.player2.value);
-	        player2.setPlayerSymbol("o");
-            hideForm();
-            gameFlow();
+			player2.setPlayerName(gameDOM.player2.value);
+			player2.setPlayerSymbol("o");
+			hideForm();
+			gameFlow();
 		}
 	} else {
-        player2.setPlayerName("Computer");
-        player2.setPlayerSymbol("o");
-        hideForm();
-        gameFlow();
+		player2.setPlayerName("Computer");
+		player2.setPlayerSymbol("o");
+		hideForm();
+		gameFlow();
 	}
 	// 	gameDOM.gameGrid.style.border = "4px solid salmon";
 	// 	gameDOM.startButton.style.width = "375px";
@@ -188,5 +183,8 @@ const gameEvents = (() => {
 	gameDOM.gameForm.addEventListener("submit", (e) => {
 		e.preventDefault();
 		validateForm();
+	});
+	gameDOM.gameGrid.addEventListener("click", (e) => {
+		console.log(e.target);
 	});
 })();
