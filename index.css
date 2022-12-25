@@ -111,7 +111,9 @@ body {
 }
 
 .game-symbol {
-    width: 50%
+    width: 80%;
+    position: relative;
+    z-index: -3;
 }
 
 .overlay {
