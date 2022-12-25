@@ -93,27 +93,43 @@ const gameLogic = (e) => {
 	let gridItemState = e.target.dataset;
 	let gridItemNum = e.target.dataset.key;
 	let src;
-
+	//If grid item has already been played on, show message
 	if (gridItemState.played == "yes") {
 		gameDOM.subDisplay.innerHTML = "Oops! Your opponent already played there.";
 		gameDOM.subDisplay.style.opacity = 1;
 		setTimeout(() => {
 			gameDOM.subDisplay.style.opacity = 0;
 		}, 2500);
+	//If grid item has not been played on:
 	} else if (gridItemState.played == "no") {
-		//manipulate player turn and src value
+		//manipulate player turn, src value, game message
 		if (gameMetrics.playerTurn == 1) {
 			src = "./x-lg-svgrepo-com.svg";
 			gameMetrics.playerTurn = 2;
+			setTimeout(() => {
+				gameDOM.startButton.classList.add("animate-text");
+				gameDOM.startButton.innerHTML = `Hey <span>${player2.getPlayerName()}</span>, play your <span>O</span>`;
+			}, 50);
+			setTimeout(() => {
+				gameDOM.startButton.classList.remove("animate-text");
+			}, 1500);
 		} else if (gameMetrics.playerTurn == 2) {
 			src = "./circle-svgrepo-com.svg";
 			gameMetrics.playerTurn = 1;
+			setTimeout(() => {
+				gameDOM.startButton.classList.add("animate-text");
+				gameDOM.startButton.innerHTML = `Hey <span>${player1.getPlayerName()}</span>, play your <span>X</span>`;
+			}, 50);
+			setTimeout(() => {
+				gameDOM.startButton.classList.remove("animate-text");
+			}, 1500);
 		}
 		//set src on DOM and set grid state
 		gridItem.children[0].setAttribute("src", src);
 		gridItemState.played = "yes";
 		//increase turn count
 		gameMetrics.turnCount += 1;
+		//
 	}
 	// console.log(gridItemState);
 	// if (gameMetrics.playerTurn == 1 & gameMetrics.turnCount <= 9) {
@@ -134,8 +150,8 @@ const beginGame = (status) => {
 			gameDOM.startButton.classList.add("start-game-animate");
 			gameDOM.gameGrid.classList.remove("game-grid-disable");
 			gameDOM.gameGrid.style.cursor = "pointer";
-			// gameDOM.startButton.style.background = "rgb(25, 25, 25)";
-			gameDOM.startButton.innerHTML = `Hey ${player1.getPlayerName()}, it's your turn.`;
+			// gameDOM.startButton.style.color = "salmon";
+			gameDOM.startButton.innerHTML = `Hey <span>${player1.getPlayerName()}</span>, it's your turn.`;
 		}, 600);
 	}
 	// const turnAlternator = () => {
