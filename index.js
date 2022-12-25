@@ -140,6 +140,13 @@ const gameLogic = (e) => {
 	// gameMetrics.turnCount += 1;
 };
 
+//Function to store and check win condition
+const winCondition = () => {
+	const winArray = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+
+
+}
+
 //Game button to display converter
 const beginGame = (status) => {
 	//CHANGE START GAME BUTTON TO DISPLAY
