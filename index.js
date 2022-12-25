@@ -92,7 +92,12 @@ const gameLogic = (e) => {
 	let gridItem = e.target;
 	let gridItemState = e.target.dataset;
 	let gridItemNum = e.target.dataset.key;
-	console.log(gridItem);
+
+	let src;
+
+	
+
+	// console.log(turn);
 
 	if (gridItemState.played == "yes") {
 		gameDOM.subDisplay.innerHTML = "Oops! Your opponent already played there.";
@@ -101,7 +106,16 @@ const gameLogic = (e) => {
 			gameDOM.subDisplay.style.opacity = 0;
 		}, 2500);
 	} else if (gridItemState.played == "no") {
-		gridItem.children[0].setAttribute("src", "./x-lg-svgrepo-com.svg");
+		//manipulate player turn and src value
+		if (gameMetrics.playerTurn == 1) {
+			src = "./x-lg-svgrepo-com.svg";
+			gameMetrics.playerTurn = 2;
+		} else if (gameMetrics.playerTurn == 2) {
+			src = "./circle-svgrepo-com.svg";
+			gameMetrics.playerTurn = 1;
+		}
+		//set src on DOM and grid state
+		gridItem.children[0].setAttribute("src", src);
 		gridItemState.played = "yes";
 	}
 	// console.log(gridItemState);
