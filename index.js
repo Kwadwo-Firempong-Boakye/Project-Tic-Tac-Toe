@@ -87,6 +87,7 @@ const gameMetrics = (() => {
 //Instance of Game Metrics Factory Function
 // let newMetrics = gameMetrics();
 
+//Logic to control Game-play sequence
 const gameLogic = (e) => {
 	let gridItem = e.target;
 	let gridItemState = e.target.dataset;
