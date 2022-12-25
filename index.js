@@ -66,24 +66,78 @@ const playerFactory = () => {
 const player1 = playerFactory();
 const player2 = playerFactory();
 
-//Game Flow Logic
-const gameFlow = () => {
-	const _totalTurns = 9;
-	const _turnCount = 0;
-	const playerTurn = 1;
-
-	const turnAlternator = () => {
-		if (playerTurn == player1) {
-			playerTurn = player2;
-		} else {
-			playerTurn = player1;
-		}
+//Game global properties
+const gameMetrics = (() => {
+	let turnCount = 0;
+	let playerTurn = 1;
+	// const setPlayerTurn = (num) => {
+	// 	_playerTurn = num;
+	// };
+	// const increaseTurnCount = () => {
+	//     _turnCount++;
+	// };
+	return {
+		playerTurn,
+		turnCount,
+		// setPlayerTurn,
+		// increaseTurnCount,
 	};
+})();
+
+//Instance of Game Metrics Factory Function
+// let newMetrics = gameMetrics();
+
+const gameLogic = (e) => {
+	let gridItem = e.target;
+	let gridItemState = e.target.dataset;
+	let gridItemNum = e.target.dataset.key;
+	console.log(gridItem);
+
+	if (gridItemState.played == "yes") {
+		gameDOM.subDisplay.innerHTML = "Oops! Your opponent already played there.";
+		gameDOM.subDisplay.style.opacity = 1;
+		setTimeout(() => {
+			gameDOM.subDisplay.style.opacity = 0;
+		}, 2500);
+	} else if (gridItemState.played == "no") {
+		gridItem.children[0].setAttribute("src", "./x-lg-svgrepo-com.svg");
+		gridItemState.played = "yes";
+	}
+	// console.log(gridItemState);
+	// if (gameMetrics.playerTurn == 1 & gameMetrics.turnCount <= 9) {
+	//     player1.addToPlayer()
+	// }
+	// gameMetrics.turnCount += 1;
+};
+
+//Game button to display converter
+const beginGame = (status) => {
+	//CHANGE START GAME BUTTON TO DISPLAY
+	if (status == "init") {
+		gameDOM.startButton.disabled = true;
+		gameDOM.startButton.classList.remove("start-game-hover");
+		gameDOM.startButton.style.width = "365px";
+		gameDOM.startButton.style.padding = "30px";
+		setTimeout(() => {
+			gameDOM.startButton.classList.add("start-game-animate");
+			gameDOM.gameGrid.classList.remove("game-grid-disable");
+			gameDOM.gameGrid.style.cursor = "pointer";
+			// gameDOM.startButton.style.background = "rgb(25, 25, 25)";
+			gameDOM.startButton.innerHTML = `Hey ${player1.getPlayerName()}, it's your turn.`;
+		}, 600);
+	}
+	// const turnAlternator = () => {
+	// 	if (playerTurn == player1) {
+	// 		playerTurn = player2;
+	// 	} else {
+	// 		playerTurn = player1;
+	// 	}
+	// };
 };
 
 //Create Game Player Details Collection Form
 const showForm = () => {
-	let _key = 0;
+	let key = 1;
 	gameDOM.startButton.disabled = true;
 	gameDOM.startButton.classList.remove("start-game-hover");
 	setTimeout(() => {
@@ -92,7 +146,7 @@ const showForm = () => {
 		gameDOM.gameForm.style.transform = "translate(-50%,-50%) scale(1)";
 	}, 300);
 	gameDOM.gameGridItems.forEach((item) => {
-		item.setAttribute("data-key", _key++);
+		item.setAttribute("data-key", key++);
 		item.setAttribute("data-played", "no");
 	});
 };
@@ -112,29 +166,23 @@ const hideForm = () => {
 // Create additional form validation and export player values
 const validateForm = () => {
 	player1.setPlayerName(gameDOM.player1.value);
-	player1.setPlayerSymbol("x");
+	player1.setPlayerSymbol("./x-lg-svgrepo-com.svg");
 	if (!gameDOM.checkBox.checked) {
 		if (gameDOM.player2.value == "") {
 			gameDOM.player2.setCustomValidity("Enter Player 2 Name");
 			gameDOM.player2.reportValidity();
 		} else {
 			player2.setPlayerName(gameDOM.player2.value);
-			player2.setPlayerSymbol("o");
+			player2.setPlayerSymbol("./circle-svgrepo-com.svg");
 			hideForm();
-			gameFlow();
+			beginGame("init");
 		}
 	} else {
 		player2.setPlayerName("Computer");
-		player2.setPlayerSymbol("o");
+		player2.setPlayerSymbol("./circle-svgrepo-com.svg");
 		hideForm();
-		gameFlow();
+		beginGame("init");
 	}
-	// 	gameDOM.gameGrid.style.border = "4px solid salmon";
-	// 	gameDOM.startButton.style.width = "375px";
-	// 	gameDOM.startButton.style.background = "rgb(255, 104, 84)";
-	// 	gameDOM.startButton.style.padding = "20px";
-	// 	gameDOM.startButton.innerHTML = "Player 1, its your turn!";
-	// }
 };
 
 // Disable player 2 form input if computer checkbox is checked
@@ -156,6 +204,7 @@ const gameDOM = (() => {
 	let subDisplay = document.querySelector(".sub-display");
 	let gameGrid = document.querySelector(".game-grid");
 	let gameGridItems = document.querySelectorAll(".game-grid-item");
+	let gameGridItem = document.querySelector(".game-grid-item");
 	let gameForm = document.querySelector("form");
 	let checkBox = gameForm.querySelector('input[type="checkbox"]');
 	let player1 = gameForm.querySelector('input[name="player1"]');
@@ -167,6 +216,7 @@ const gameDOM = (() => {
 		subDisplay,
 		gameGrid,
 		gameGridItems,
+		gameGridItem,
 		gameForm,
 		overlay,
 		checkBox,
@@ -184,7 +234,5 @@ const gameEvents = (() => {
 		e.preventDefault();
 		validateForm();
 	});
-	gameDOM.gameGrid.addEventListener("click", (e) => {
-		console.log(e.target);
-	});
+	gameDOM.gameGrid.addEventListener("click", gameLogic);
 })();
