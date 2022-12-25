@@ -100,10 +100,11 @@ const gameLogic = (e) => {
 		setTimeout(() => {
 			gameDOM.subDisplay.style.opacity = 0;
 		}, 2500);
-	//If grid item has not been played on:
+		//If grid item has not been played on:
 	} else if (gridItemState.played == "no") {
 		//manipulate player turn, src value, game message
 		if (gameMetrics.playerTurn == 1) {
+			player1.addToPlayer(+gridItemNum);
 			src = "./x-lg-svgrepo-com.svg";
 			gameMetrics.playerTurn = 2;
 			setTimeout(() => {
@@ -114,6 +115,7 @@ const gameLogic = (e) => {
 				gameDOM.startButton.classList.remove("animate-text");
 			}, 1500);
 		} else if (gameMetrics.playerTurn == 2) {
+			player2.addToPlayer(+gridItemNum);
 			src = "./circle-svgrepo-com.svg";
 			gameMetrics.playerTurn = 1;
 			setTimeout(() => {
