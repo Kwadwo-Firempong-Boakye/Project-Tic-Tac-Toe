@@ -4,26 +4,32 @@
     background: #fff;
     --tac-yellow: rgb(255, 213, 47);
     --salmon: salmon;
-    --dark-bg: black;
+    --dark-bg: rgb(255, 255, 255);
     --shadow: rgb(182, 69, 56);
     --super-salmon: rgb(248, 99, 82);
-    --borders: black;
-    --button-text: #fff;
-    --form-bg: rgb(54, 54, 54);
+    --borders: #fff;
+    --button-text: rgb(0, 0, 0);
+    --hover-button-text: #fff;
+    --form-bg: #29465a;
     --form-heading: #fff;
-    --form-input-bg: rgb(252, 236, 234);
-    --form-accent: salmon;
+    --form-input-bg: rgb(255, 255, 255);
+    --form-accent: var(--tac-yellow);
     --form-accent-dark: rgb(255, 104, 84); 
     --form-label: #fff;
     --form-grey-out: gray;
+    --title: rgb(255, 255, 255);
+    --title-span: rgb(255, 213, 47);
+    --animate-text: #0aaeef;
 }
 
 body {
-    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); 
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-    height: 100vh; */
+    animation: gradient 7s ease infinite;
+    height: 100vh;
     margin: 0;
+    position: relative;
+    z-index: -9;
 }
 
 
@@ -55,10 +61,11 @@ body {
     font-style: italic;
     margin: 0;
     padding: 20px;
+    color: var(--title);
 }
 
 .game-title span {
-    color: var(--salmon)
+    color: var(--title-span)
 }
 
 .start-game {
@@ -76,7 +83,7 @@ body {
 }
 
 .start-game span {
-    color: var(--salmon);
+    color: var(--shadow);
 }
 
 .start-game-animate {
@@ -100,6 +107,7 @@ body {
     transform: translateY(2px);
     box-shadow: 0px 2px 2px var(--shadow);
     background-color: var(--super-salmon);
+    color: var(--hover-button-text);
 }
 
 .button-text {
@@ -108,7 +116,7 @@ body {
 }
 
 .animate-text {
-    color: var(--tac-yellow) !important;
+    color: var(--animate-text) !important;
     font-size: 22px !important;
 }
 
@@ -164,7 +172,7 @@ body {
 .overlay {
     position: absolute;
     top: 0;
-    opacity: 0.5;
+    opacity: 0.6;
     z-index: 2;
     width: 100vw;
     height: 100vh;
@@ -216,7 +224,7 @@ input:focus {
 }
 
 ::placeholder{
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 label {
@@ -252,6 +260,6 @@ label span {
 
 .player-wins {
     font-size: 35px !important;
-    color: var(--tac-yellow)
+    color: var(--shadow)
 }
 
