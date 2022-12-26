@@ -70,6 +70,7 @@ const player2 = playerFactory();
 const gameMetrics = (() => {
 	let turnCount = 0;
 	let playerTurn = 1;
+	let winnerFound = "false";
 	// const setPlayerTurn = (num) => {
 	// 	_playerTurn = num;
 	// };
@@ -79,6 +80,7 @@ const gameMetrics = (() => {
 	return {
 		playerTurn,
 		turnCount,
+		winnerFound,
 		// setPlayerTurn,
 		// increaseTurnCount,
 	};
@@ -159,6 +161,7 @@ const winCondition = () => {
 	];
 	//Matching game win combination
 	let isWin;
+	let winner;
 
 	if (gameMetrics.playerTurn == 2) {
 		let player1Arr = player1.getPlayerArray();
@@ -185,7 +188,14 @@ const winCondition = () => {
 	}
 
 	if (isWin) {
-		endGame(isWin);
+		gameMetrics.winnerFound = "true";
+		if (gameMetrics.playerTurn == 1) {
+			winner = player2.getPlayerName();
+		} else if (gameMetrics.playerTurn == 2) {
+			winner = player1.getPlayerName();
+		}
+		console.log(isWin, winner);
+		endGame(isWin, winner);
 	} else {
 		console.log("not yet");
 	}
@@ -209,10 +219,27 @@ const beginGame = (status) => {
 	}
 };
 
-const endGame = (arr) => {
+const endGame = (arr, player) => {
 	console.log("end game triggered", arr);
 	gameDOM.gameGrid.classList.add("game-grid-disable");
-	gameDOM.ga
+	gameDOM.gameSymbols.forEach((symbol) => {
+		if (
+			(arr,
+			symbol.parentElement.dataset.key,
+			arr.includes(+symbol.parentElement.dataset.key))
+		) {
+			symbol.style.zIndex = 2;
+			symbol.parentElement.style.background = "rgb(255, 213, 47)";
+		}
+
+		gameDOM.startButton.classList.remove("start-game-animate", "animate-text");
+		gameDOM.startButton.style.transform = "scale(0)";
+		setTimeout(() => {
+			gameDOM.startButton.classList.add("player-wins");
+			gameDOM.startButton.style.transform = "scale(1)";
+			gameDOM.startButton.innerHTML = `${player} wins!!!`;
+		}, 1000);
+	});
 };
 
 //Create Game Player Details Collection Form
@@ -281,6 +308,7 @@ const gameDOM = (() => {
 	let gameContainer = document.querySelector("#game-container");
 	let gameInfo = document.querySelector(".game-info");
 	let startButton = document.querySelector(".start-game");
+	let startButtonText = document.querySelector(".button-text");
 	let subDisplay = document.querySelector(".sub-display");
 	let gameGrid = document.querySelector(".game-grid");
 	let gameGridItems = document.querySelectorAll(".game-grid-item");
@@ -294,6 +322,7 @@ const gameDOM = (() => {
 	return {
 		gameInfo,
 		startButton,
+		startButtonText,
 		subDisplay,
 		gameGrid,
 		gameGridItems,
