@@ -133,6 +133,10 @@ const gameLogic = (e) => {
 		gameMetrics.turnCount += 1;
 		//
 	}
+
+	if (gameMetrics.turnCount >= 5) {
+		winCondition();
+	}
 	// console.log(gridItemState);
 	// if (gameMetrics.playerTurn == 1 & gameMetrics.turnCount <= 9) {
 	//     player1.addToPlayer()
@@ -142,10 +146,50 @@ const gameLogic = (e) => {
 
 //Function to store and check win condition
 const winCondition = () => {
-	const winArray = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+	//win combinations
+	const winArray = [
+		[1, 2, 3],
+		[4, 5, 6],
+		[7, 8, 9],
+		[1, 4, 7],
+		[2, 5, 8],
+		[3, 6, 9],
+		[1, 5, 9],
+		[3, 5, 7],
+	];
+	//Matching game win combination
+	let isWin;
 
+	if (gameMetrics.playerTurn == 2) {
+		let player1Arr = player1.getPlayerArray();
+		winArray.forEach((subArr) => {
+			if (
+				subArr.every((item) => {
+					return player1Arr.includes(item);
+				})
+			) {
+				isWin = subArr;
+			}
+		});
+	} else if (gameMetrics.playerTurn == 1) {
+		let player2Arr = player2.getPlayerArray();
+		winArray.forEach((subArr) => {
+			if (
+				subArr.every((item) => {
+					return player2Arr.includes(item);
+				})
+			) {
+				isWin = subArr;
+			}
+		});
+	}
 
-}
+	if (isWin) {
+		endGame(isWin);
+	} else {
+		console.log("not yet");
+	}
+};
 
 //Game button to display converter
 const beginGame = (status) => {
@@ -163,13 +207,10 @@ const beginGame = (status) => {
 			gameDOM.startButton.innerHTML = `Hey <span>${player1.getPlayerName()}</span>, it's your turn.`;
 		}, 600);
 	}
-	// const turnAlternator = () => {
-	// 	if (playerTurn == player1) {
-	// 		playerTurn = player2;
-	// 	} else {
-	// 		playerTurn = player1;
-	// 	}
-	// };
+};
+
+const endGame = (arr) => {
+	console.log("end game triggered", arr);
 };
 
 //Create Game Player Details Collection Form
