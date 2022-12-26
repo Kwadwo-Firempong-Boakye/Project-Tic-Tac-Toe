@@ -1,8 +1,21 @@
 :root {
     font-size: 16px;
     font-family: 'Poppins', sans-serif;
-    background: rgb(245, 245, 245);
-    
+    background: #fff;
+    --tac-yellow: rgb(255, 213, 47);
+    --salmon: salmon;
+    --dark-bg: black;
+    --shadow: rgb(182, 69, 56);
+    --super-salmon: rgb(248, 99, 82);
+    --borders: black;
+    --button-text: #fff;
+    --form-bg: rgb(54, 54, 54);
+    --form-heading: #fff;
+    --form-input-bg: rgb(252, 236, 234);
+    --form-accent: salmon;
+    --form-accent-dark: rgb(255, 104, 84); 
+    --form-label: #fff;
+    --form-grey-out: gray;
 }
 
 body {
@@ -45,7 +58,7 @@ body {
 }
 
 .game-title span {
-    color: salmon;
+    color: var(--salmon)
 }
 
 .start-game {
@@ -54,16 +67,16 @@ body {
     font-weight: bold;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: rgb(28, 28, 28);
-    color: white;
+    background-color: var(--dark-bg);
+    color: var(--button-text);
     border-radius: 5px;
     border: none;
-    box-shadow: -2px 4px 2px rgb(182, 69, 56);
+    box-shadow: -2px 4px 2px var(--shadow);
     transition: all 0.3s ease-in-out;
 }
 
 .start-game span {
-    color: salmon;
+    color: var(--salmon);
 }
 
 .start-game-animate {
@@ -85,8 +98,8 @@ body {
 
 .start-game-hover:hover {
     transform: translateY(2px);
-    box-shadow: 0px 2px 2px rgb(182, 69, 56);
-    background-color: rgb(248, 99, 82);
+    box-shadow: 0px 2px 2px var(--shadow);
+    background-color: var(--super-salmon);
 }
 
 .button-text {
@@ -95,7 +108,7 @@ body {
 }
 
 .animate-text {
-    color: rgb(255, 213, 47) !important;
+    color: var(--tac-yellow) !important;
     font-size: 22px !important;
 }
 
@@ -119,8 +132,6 @@ body {
     grid-template-columns: repeat(3, 110px);
     grid-template-rows: repeat(3, 110px);
     border-radius: 10px;
-    /* border: 1px solid red; */
-    /* padding: 20px; */
     transition: all 0.5s ease-in-out;
 }
 
@@ -134,20 +145,19 @@ body {
 }
 
 .border-v {
-    border-left: 4px solid black;
-    border-right: 4px solid black;
+    border-left: 4px solid var(--borders);
+    border-right: 4px solid var(--borders);
 }
 
 .border-h {
-    border-top: 4px solid black;
-    border-bottom: 4px solid black;
+    border-top: 4px solid var(--borders);
+    border-bottom: 4px solid var(--borders);
 }
 
 .game-symbol {
     width: 80%;
     position: relative;
     z-index: -3;
-    color: #000;
     transition: all 0.5s ease-in-out;
 }
 
@@ -158,7 +168,7 @@ body {
     z-index: 2;
     width: 100vw;
     height: 100vh;
-    background: #000;
+    background: var(--dark-bg);
     visibility: hidden;
 }
 
@@ -170,7 +180,7 @@ form {
     border: none;
     border-radius: 10px;
     padding: 30px 20px;
-    background: rgb(54, 54, 54);
+    background: var(--form-bg);
     position: absolute; 
     z-index: 4;
     top: 49%; 
@@ -183,8 +193,7 @@ form {
 .form-heading {
     text-align: center;
     font-size: 24px;
-    /* font-style: italic; */
-    color: #fff;
+    color: var(--form-heading);
     font-weight: bold;
 }
 
@@ -192,18 +201,18 @@ input[type="text"] {
     padding: 15px;
     border: none;
     border-radius: 5px;
-    background: rgb(252, 236, 234);
+    background: var(--form-input-bg);
     font-size: 1.2rem;
 }
 
 input[type="checkbox"] {
-    accent-color: salmon;
+    accent-color: var(--form-accent);
     transform: scale(2);
     margin-left: 15px;
 }
 
 input:focus {
-    outline: 2px solid salmon;
+    outline: 2px solid var(--form-accent);
 }
 
 ::placeholder{
@@ -211,13 +220,13 @@ input:focus {
 }
 
 label {
-    color: #fff;
+    color: var(--form-label);
     font-weight: bold;
     font-size: 1.05rem;
 }
 
 label span {
-    color: salmon;
+    color: var(--form-accent);
     white-space: pre;
     font-size: 1.3rem;
 }
@@ -227,18 +236,22 @@ label span {
     padding: 15px;
     margin-top: 20px;
     font-weight: bold;
-    background: salmon;
+    background: var(--form-accent);
     border: none;
     border-radius: 5px;
 }
 
 .submit:hover {
-    background: rgb(255, 104, 84);
+    background: var(--form-accent-dark);
 
 }
 
 .grey-out {
-    background: gray !important;
+    background: var(--form-grey-out) !important;
 }
 
+.player-wins {
+    font-size: 35px !important;
+    color: var(--tac-yellow)
+}
 
