@@ -211,6 +211,7 @@ const beginGame = (status) => {
 
 const endGame = (arr) => {
 	console.log("end game triggered", arr);
+	gameDOM.gameGrid.classList.add("game-grid-disable");
 };
 
 //Create Game Player Details Collection Form
