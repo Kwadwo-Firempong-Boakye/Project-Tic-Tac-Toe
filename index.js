@@ -71,18 +71,10 @@ const gameMetrics = (() => {
 	let turnCount = 0;
 	let playerTurn = 1;
 	let winnerFound = "false";
-	// const setPlayerTurn = (num) => {
-	// 	_playerTurn = num;
-	// };
-	// const increaseTurnCount = () => {
-	//     _turnCount++;
-	// };
 	return {
 		playerTurn,
 		turnCount,
 		winnerFound,
-		// setPlayerTurn,
-		// increaseTurnCount,
 	};
 })();
 
@@ -139,11 +131,6 @@ const gameLogic = (e) => {
 	if (gameMetrics.turnCount >= 5) {
 		winCondition();
 	}
-	// console.log(gridItemState);
-	// if (gameMetrics.playerTurn == 1 & gameMetrics.turnCount <= 9) {
-	//     player1.addToPlayer()
-	// }
-	// gameMetrics.turnCount += 1;
 };
 
 //Function to store and check win condition
@@ -213,7 +200,6 @@ const beginGame = (status) => {
 			gameDOM.startButton.classList.add("start-game-animate");
 			gameDOM.gameGrid.classList.remove("game-grid-disable");
 			gameDOM.gameGrid.style.cursor = "pointer";
-			// gameDOM.startButton.style.color = "salmon";
 			gameDOM.startButton.innerHTML = `Hey <span>${player1.getPlayerName()}</span>, it's your turn.`;
 		}, 600);
 	}
@@ -229,7 +215,7 @@ const endGame = (arr, player) => {
 			arr.includes(+symbol.parentElement.dataset.key))
 		) {
 			symbol.style.zIndex = 2;
-			symbol.parentElement.style.background = "rgb(255, 213, 47)";
+			symbol.parentElement.style.background = "var(--tac-yellow)";
 		}
 
 		gameDOM.startButton.classList.remove("start-game-animate", "animate-text");
@@ -267,7 +253,6 @@ const hideForm = () => {
 	}, 300);
 	gameDOM.startButton.disabled = false;
 	gameDOM.startButton.classList.add("start-game-hover");
-	// gameDOM.gameForm.reset();
 };
 
 // Create additional form validation and export player values
