@@ -146,6 +146,22 @@ const winCondition = () => {
 		[1, 5, 9],
 		[3, 5, 7],
 	];
+	//Check for draw on 8th turn count
+	// if (gameMetrics.turnCount == 8) {
+	// 	let unplayed;
+	// 	let src = "./x-lg-svgrepo-com.svg";
+	// 	gameDOM.gameGridItems.forEach((item) => {
+	// 		if (item.dataset.played == "no") {
+	// 			unplayed = item.dataset.key;
+	// 			player1.addToPlayer(+unplayed);
+	// 			gameMetrics.playerTurn = 2;
+	// 			item.children[0].setAttribute("src", src);
+	// 			item.dataset.played == "yes";
+	// 			gameMetrics.turnCount += 1;
+	// 		}
+	// 	});
+	// }
+
 	//Matching game win combination
 	let isWin;
 	let winner;
@@ -183,6 +199,8 @@ const winCondition = () => {
 		}
 		console.log(isWin, winner);
 		endGame(isWin, winner);
+	} else if (gameMetrics.turnCount == 9) {
+		drawGame();
 	} else {
 		console.log("not yet");
 	}
@@ -223,10 +241,29 @@ const endGame = (arr, player) => {
 		setTimeout(() => {
 			gameDOM.startButton.classList.add("player-wins");
 			gameDOM.startButton.style.transform = "scale(1)";
-			gameDOM.startButton.innerHTML = `${player} wins!!! 🥳`;
+			if (player != "Computer") {
+				gameDOM.startButton.innerHTML = `${player} wins!!! 🥳`;
+			} else {
+				gameDOM.startButton.innerHTML = `${player} wins... 😭`;
+			}
 		}, 1000);
 	});
 };
+
+const drawGame = () => {
+	gameDOM.gameGrid.classList.add("game-grid-disable");
+	gameDOM.gameSymbols.forEach((symbol) => {
+		symbol.style.zIndex = 2;
+		symbol.parentElement.style.background = "var(--animate-text)";
+	})
+	gameDOM.startButton.classList.remove("start-game-animate", "animate-text");
+	gameDOM.startButton.style.transform = "scale(0)";
+	setTimeout(() => {
+		gameDOM.startButton.classList.add("player-wins");
+		gameDOM.startButton.style.transform = "scale(1)";
+		gameDOM.startButton.innerHTML = `Its a tie 🤝`;
+	}, 1000);
+}
 
 //Create Game Player Details Collection Form
 const showForm = () => {
