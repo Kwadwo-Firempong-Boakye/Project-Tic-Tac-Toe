@@ -212,6 +212,7 @@ const beginGame = (status) => {
 const endGame = (arr) => {
 	console.log("end game triggered", arr);
 	gameDOM.gameGrid.classList.add("game-grid-disable");
+	gameDOM.ga
 };
 
 //Create Game Player Details Collection Form
@@ -284,6 +285,7 @@ const gameDOM = (() => {
 	let gameGrid = document.querySelector(".game-grid");
 	let gameGridItems = document.querySelectorAll(".game-grid-item");
 	let gameGridItem = document.querySelector(".game-grid-item");
+	let gameSymbols = document.querySelectorAll(".game-symbol");
 	let gameForm = document.querySelector("form");
 	let checkBox = gameForm.querySelector('input[type="checkbox"]');
 	let player1 = gameForm.querySelector('input[name="player1"]');
@@ -296,6 +298,7 @@ const gameDOM = (() => {
 		gameGrid,
 		gameGridItems,
 		gameGridItem,
+		gameSymbols,
 		gameForm,
 		overlay,
 		checkBox,
