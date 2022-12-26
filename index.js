@@ -223,7 +223,7 @@ const endGame = (arr, player) => {
 		setTimeout(() => {
 			gameDOM.startButton.classList.add("player-wins");
 			gameDOM.startButton.style.transform = "scale(1)";
-			gameDOM.startButton.innerHTML = `${player} wins!!!`;
+			gameDOM.startButton.innerHTML = `${player} wins!!! 🥳`;
 		}, 1000);
 	});
 };
