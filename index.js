@@ -246,8 +246,14 @@ const endGame = (arr, player) => {
 			} else {
 				gameDOM.startButton.innerHTML = `${player} wins... 😭`;
 			}
+			gameDOM.resetButton.style.opacity = "1";
+			gameDOM.resetButton.scrollIntoView({ behavior: "smooth" });
 		}, 1000);
 	});
+	setTimeout(() => {
+		gameDOM.resetButton.style.display = "block";
+		gameDOM.resetButton.scrollIntoView({ behavior: "smooth" })
+	}, 3000);
 };
 
 const drawGame = () => {
@@ -255,15 +261,21 @@ const drawGame = () => {
 	gameDOM.gameSymbols.forEach((symbol) => {
 		symbol.style.zIndex = 2;
 		symbol.parentElement.style.background = "var(--animate-text)";
-	})
+	});
 	gameDOM.startButton.classList.remove("start-game-animate", "animate-text");
 	gameDOM.startButton.style.transform = "scale(0)";
+	gameDOM.resetButton.style.display = "block";
 	setTimeout(() => {
 		gameDOM.startButton.classList.add("player-wins");
 		gameDOM.startButton.style.transform = "scale(1)";
 		gameDOM.startButton.innerHTML = `Its a tie 🤝`;
+		gameDOM.resetButton.style.opacity = "1";
 	}, 1000);
-}
+	setTimeout(() => {
+	gameDOM.resetButton.style.display = "block";
+		gameDOM.resetButton.scrollIntoView()
+	}, 3000);
+};
 
 //Create Game Player Details Collection Form
 const showForm = () => {
@@ -341,6 +353,7 @@ const gameDOM = (() => {
 	let player1 = gameForm.querySelector('input[name="player1"]');
 	let player2 = gameForm.querySelector('input[name="player2"]');
 	let overlay = document.querySelector(".overlay");
+	let resetButton = document.querySelector(".reset");
 	return {
 		gameInfo,
 		startButton,
@@ -355,6 +368,7 @@ const gameDOM = (() => {
 		checkBox,
 		player1,
 		player2,
+		resetButton,
 	};
 })();
 
@@ -368,4 +382,16 @@ const gameEvents = (() => {
 		validateForm();
 	});
 	gameDOM.gameGrid.addEventListener("click", gameLogic);
+	gameDOM.subDisplay.addEventListener("dblclick", () => {
+		window.location.reload();
+	});
+	if (gameMetrics.turnCount == 9) {
+		gameDOM.subDisplay.addEventListener("click", () => {
+			console.log("double-click detected");
+			window.location.reload();
+		});
+	}
+	gameDOM.resetButton.addEventListener("click", () => {
+		window.location.reload();
+	});
 })();
