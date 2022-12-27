@@ -1,7 +1,6 @@
 :root {
     font-size: 16px;
     font-family: 'Poppins', sans-serif;
-    background: #fff;
     --tac-yellow: rgb(255, 213, 47);
     --salmon: salmon;
     --dark-bg: rgb(255, 255, 255);
@@ -20,6 +19,7 @@
     --title: rgb(255, 255, 255);
     --title-span: rgb(255, 213, 47);
     --animate-text: #2376ad;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -131,6 +131,11 @@ body {
     transition: opacity 0.5s ease-in-out;
     opacity: 0;
     color: var(--borders);
+}
+
+.sub-display-end {
+    border: 1px dashed var(--borders); 
+    padding: 5px;
 }
 
 .game-grid {
@@ -258,19 +263,23 @@ label span {
 }
 
 .player-wins {
-    font-size: 31px !important;
+    font-size: 28px !important;
     color: var(--shadow)
+}
+
+.reset {
+    text-align: center;
+    margin-top: 50px;
+    opacity: 0;
+    display: none;
+    transition: all 1s ease-in;
 }
 
 .footer {
     color: var(--borders);
     text-align: center;
-    font-size: 15px;
-    position: absolute;
-    top: 90vh;
-    left: 50%;
-    transform: translate(-50%);
-    width: 100%;
+    font-size: 14px;
+    padding: 50px 0px;
 }
 
 .footer a {
@@ -293,8 +302,8 @@ label span {
 
 @media only screen and (max-width: 380px) {
     .footer {
-        font-size: 9px;
-        top: 94vh;
+        font-size: 11px;
+        top: 90%;
     }
 }
 
