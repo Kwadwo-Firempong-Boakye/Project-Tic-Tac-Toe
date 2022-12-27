@@ -278,10 +278,17 @@ label span {
     color: var(--title-span);
 }
 
+.footer p:hover > svg {
+    transform: rotate(360deg);
+    height: 18px;
+    color: white;
+}
+
 .footer svg {
     height: 14px;
     padding: 0 2px;
     color: var(--tac-yellow);
+    transition: all 0.3s ease-in-out;
 }
 
 @media only screen and (max-width: 380px) {
