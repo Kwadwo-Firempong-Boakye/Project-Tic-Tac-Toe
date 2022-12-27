@@ -89,7 +89,7 @@ const gameLogic = (e) => {
 	let src;
 	//If grid item has already been played on, show message
 	if (gridItemState.played == "yes") {
-		gameDOM.subDisplay.innerHTML = "Oops! Your opponent already played there.";
+		gameDOM.subDisplay.innerHTML = "Oops! That space is already taken.";
 		gameDOM.subDisplay.style.opacity = 1;
 		setTimeout(() => {
 			gameDOM.subDisplay.style.opacity = 0;
@@ -212,7 +212,7 @@ const beginGame = (status) => {
 	if (status == "init") {
 		gameDOM.startButton.disabled = true;
 		gameDOM.startButton.classList.remove("start-game-hover");
-		gameDOM.startButton.style.width = "365px";
+		gameDOM.startButton.style.width = "345px";
 		gameDOM.startButton.style.padding = "30px";
 		setTimeout(() => {
 			gameDOM.startButton.classList.add("start-game-animate");

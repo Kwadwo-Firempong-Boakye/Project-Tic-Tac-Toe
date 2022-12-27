@@ -60,7 +60,7 @@ body {
     font-weight: 800;
     font-style: italic;
     margin: 0;
-    padding: 20px;
+    padding: 15px;
     color: var(--title);
 }
 
@@ -73,7 +73,7 @@ body {
     font-size: 20px;
     font-weight: bold;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     background-color: var(--dark-bg);
     color: var(--button-text);
     border-radius: 5px;
@@ -121,17 +121,16 @@ body {
 }
 
 .sub-display {
-    /* color: rgb(250, 91, 73); */
     text-align: center;
     letter-spacing: 0.5px;
     margin: 0;
-    padding-top: 20px;
+    padding-top: 10px;
     font-size: 14px;
     font-weight: bold;
     font-style: italic;
     transition: opacity 0.5s ease-in-out;
     opacity: 0;
-    /* animation: breathe 1.5s ease-in-out 3; */
+    color: var(--borders);
 }
 
 .game-grid {
@@ -261,5 +260,34 @@ label span {
 .player-wins {
     font-size: 31px !important;
     color: var(--shadow)
+}
+
+.footer {
+    color: var(--borders);
+    text-align: center;
+    font-size: 15px;
+    position: absolute;
+    top: 90vh;
+    left: 50%;
+    transform: translate(-50%);
+    width: 100%;
+}
+
+.footer a {
+    text-decoration: none;
+    color: var(--title-span);
+}
+
+.footer svg {
+    height: 14px;
+    padding: 0 2px;
+    color: var(--tac-yellow);
+}
+
+@media only screen and (max-width: 380px) {
+    .footer {
+        font-size: 9px;
+        top: 94vh;
+    }
 }
 
