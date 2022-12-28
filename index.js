@@ -22,6 +22,10 @@ const playerFactory = () => {
 		return _playerArray;
 	};
 
+	const replay = () => {
+		_playerArray = []
+	}
+
 	return {
 		getPlayerName,
 		getPlayerSymbol,
@@ -29,6 +33,7 @@ const playerFactory = () => {
 		setPlayerSymbol,
 		addToPlayer,
 		getPlayerArray,
+		replay,
 	};
 };
 
@@ -374,6 +379,16 @@ const drawGame = () => {
 		gameDOM.resetButton.scrollIntoView();
 	}, 3000);
 };
+
+const playAgain = () => {
+	player1.replay();
+	player2.replay();
+	gameMetrics.turnCount = 0;
+	gameMetrics.playerTurn = 1;
+	gameMetrics.winnerFound = "false"
+	gameMetrics.aiType = undefined;
+	showForm();
+}
 
 //Create Game Player Details Collection Form
 const showForm = () => {
