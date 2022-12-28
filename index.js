@@ -48,8 +48,64 @@ const gameMetrics = (() => {
 	};
 })();
 
+const playWithAi = () => {
+	const winArray = [
+		[1, 2, 3],
+		[4, 5, 6],
+		[7, 8, 9],
+		[1, 4, 7],
+		[2, 5, 8],
+		[3, 6, 9],
+		[1, 5, 9],
+		[3, 5, 7],
+	];
+
+	const randomAi = () => {
+		let unplayedGridItems = [];
+		gameDOM.gameGridItems.forEach((item) => {
+			if (item.dataset.played == "no") {
+				unplayedGridItems.push(item.dataset.key);
+			}
+		});
+		let randomIndex = Math.floor(
+			Math.random() * (unplayedGridItems.length)
+		);
+		let keyToPlay = unplayedGridItems[randomIndex];
+		let item = document.querySelector(`[data-key = "${keyToPlay}"]`);
+		console.log(unplayedGridItems, keyToPlay);
+		
+		player2.addToPlayer(+keyToPlay);
+		let src = "./circle-svgrepo-com.svg";
+		gameMetrics.playerTurn = 1;
+		gameDOM.startButton.innerHTML = `Hey <span>${player1.getPlayerName()}</span>, play your <span>X</span>`;
+		gameDOM.startButton.classList.remove("animate-text");
+
+		item.children[0].setAttribute("src", src);
+		item.dataset.played = "yes";
+		gameMetrics.turnCount += 1;
+		gameDOM.gameGrid.classList.remove("game-grid-disable");
+
+
+		if (gameMetrics.turnCount > 4) {
+			winCondition();
+		}
+	};
+
+	let playStyle = 4;
+	// Math.floor(Math.random()*10);
+
+	if (playStyle < 5) {
+		randomAi();
+	} else {
+		smartAi();
+	}
+};
+
 //Logic to control Game-play sequence
 const gameLogic = (e) => {
+	if (player2.getPlayerName() == "Computer") {
+		gameDOM.gameGrid.classList.add("game-grid-disable");
+	}
 	let gridItem = e.target;
 	let gridItemState = e.target.dataset;
 	let gridItemNum = e.target.dataset.key;
@@ -60,7 +116,8 @@ const gameLogic = (e) => {
 		gameDOM.subDisplay.style.opacity = 1;
 		setTimeout(() => {
 			gameDOM.subDisplay.style.opacity = 0;
-		}, 2500);
+		}, 2000);
+		
 		//If grid item has not been played on:
 	} else if (gridItemState.played == "no") {
 		//manipulate player turn, src value, game message
@@ -74,7 +131,10 @@ const gameLogic = (e) => {
 			}, 50);
 			setTimeout(() => {
 				gameDOM.startButton.classList.remove("animate-text");
-			}, 1500);
+				if (player2.getPlayerName() == "Computer" && gameMetrics.playerTurn == 2 && gameMetrics.winnerFound == "false") {
+					playWithAi();
+				}
+			}, 1200);
 		} else if (gameMetrics.playerTurn == 2) {
 			player2.addToPlayer(+gridItemNum);
 			src = "./circle-svgrepo-com.svg";
@@ -85,7 +145,7 @@ const gameLogic = (e) => {
 			}, 50);
 			setTimeout(() => {
 				gameDOM.startButton.classList.remove("animate-text");
-			}, 1500);
+			}, 1200);
 		}
 		//set src on DOM, set grid state and increase turn count
 		gridItem.children[0].setAttribute("src", src);
@@ -93,9 +153,9 @@ const gameLogic = (e) => {
 		gameMetrics.turnCount += 1;
 	}
 
-	if (gameMetrics.turnCount >= 5) {
+	// if (gameMetrics.turnCount > 4) {
 		winCondition();
-	}
+	// } 
 };
 
 //Function to store and check win condition
@@ -202,11 +262,12 @@ const endGame = (arr, player) => {
 	});
 	setTimeout(() => {
 		gameDOM.resetButton.style.display = "block";
-		gameDOM.resetButton.scrollIntoView({ behavior: "smooth" })
+		gameDOM.resetButton.scrollIntoView({ behavior: "smooth" });
 	}, 3000);
 };
 
 const drawGame = () => {
+	gameMetrics.winnerFound = "draw";
 	gameDOM.gameGrid.classList.add("game-grid-disable");
 	gameDOM.gameSymbols.forEach((symbol) => {
 		symbol.style.zIndex = 2;
@@ -215,6 +276,7 @@ const drawGame = () => {
 	gameDOM.startButton.classList.remove("start-game-animate", "animate-text");
 	gameDOM.startButton.style.transform = "scale(0)";
 	gameDOM.resetButton.style.display = "block";
+
 	setTimeout(() => {
 		gameDOM.startButton.classList.add("player-wins");
 		gameDOM.startButton.style.transform = "scale(1)";
@@ -222,8 +284,8 @@ const drawGame = () => {
 		gameDOM.resetButton.style.opacity = "1";
 	}, 1000);
 	setTimeout(() => {
-	gameDOM.resetButton.style.display = "block";
-		gameDOM.resetButton.scrollIntoView()
+		gameDOM.resetButton.style.display = "block";
+		gameDOM.resetButton.scrollIntoView();
 	}, 3000);
 };
 
