@@ -267,12 +267,18 @@ label span {
     color: var(--shadow)
 }
 
-.reset {
+.reset,
+.restart {
     text-align: center;
     margin-top: 50px;
     opacity: 0;
     display: none;
     transition: all 1s ease-in;
+}
+
+.replay {
+    background-color: var(--form-accent-dark) !important;
+    color: var(--borders) !important;
 }
 
 .footer {
