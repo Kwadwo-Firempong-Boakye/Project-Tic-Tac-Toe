@@ -41,10 +41,12 @@ const gameMetrics = (() => {
 	let turnCount = 0;
 	let playerTurn = 1;
 	let winnerFound = "false";
+	let aiType;
 	return {
 		playerTurn,
 		turnCount,
 		winnerFound,
+		aiType,
 	};
 })();
 
@@ -70,7 +72,6 @@ const playWithAi = () => {
 		let randomIndex = Math.floor(Math.random() * unplayedGridItems.length);
 		let keyToPlay = unplayedGridItems[randomIndex];
 		let item = document.querySelector(`[data-key = "${keyToPlay}"]`);
-		console.log(unplayedGridItems, keyToPlay);
 
 		player2.addToPlayer(+keyToPlay);
 		let src = "./circle-svgrepo-com.svg";
@@ -146,7 +147,6 @@ const playWithAi = () => {
 			} else {
 				let keyToPlay = blockWin[0];
 				let item = document.querySelector(`[data-key = "${keyToPlay}"]`);
-				console.log(unplayedGridItems, keyToPlay);
 
 				player2.addToPlayer(+keyToPlay);
 				let src = "./circle-svgrepo-com.svg";
@@ -166,12 +166,19 @@ const playWithAi = () => {
 		}
 	};
 
-	let playStyle = 6;
-	// Math.floor(Math.random()*10);
+	let playStyle = Math.floor(Math.random() * 10);
 
-	if (playStyle < 5) {
+	if (!gameMetrics.aiType) {
+		if (playStyle < 5) {
+			gameMetrics.aiType = "random";
+		} else {
+			gameMetrics.aiType = "smart";
+		}
+	}
+
+	if (gameMetrics.aiType == "random") {
 		randomAi();
-	} else {
+	} else if (gameMetrics.aiType == "smart") {
 		smartAi();
 	}
 };
@@ -476,12 +483,6 @@ const gameEvents = (() => {
 	gameDOM.subDisplay.addEventListener("dblclick", () => {
 		window.location.reload();
 	});
-	if (gameMetrics.turnCount == 9) {
-		gameDOM.subDisplay.addEventListener("click", () => {
-			console.log("double-click detected");
-			window.location.reload();
-		});
-	}
 	gameDOM.resetButton.addEventListener("click", () => {
 		window.location.reload();
 	});
