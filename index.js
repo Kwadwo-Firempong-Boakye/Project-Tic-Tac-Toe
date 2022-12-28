@@ -67,13 +67,11 @@ const playWithAi = () => {
 				unplayedGridItems.push(item.dataset.key);
 			}
 		});
-		let randomIndex = Math.floor(
-			Math.random() * (unplayedGridItems.length)
-		);
+		let randomIndex = Math.floor(Math.random() * unplayedGridItems.length);
 		let keyToPlay = unplayedGridItems[randomIndex];
 		let item = document.querySelector(`[data-key = "${keyToPlay}"]`);
 		console.log(unplayedGridItems, keyToPlay);
-		
+
 		player2.addToPlayer(+keyToPlay);
 		let src = "./circle-svgrepo-com.svg";
 		gameMetrics.playerTurn = 1;
@@ -85,13 +83,90 @@ const playWithAi = () => {
 		gameMetrics.turnCount += 1;
 		gameDOM.gameGrid.classList.remove("game-grid-disable");
 
-
 		if (gameMetrics.turnCount > 4) {
 			winCondition();
 		}
 	};
 
-	let playStyle = 4;
+	const smartAi = () => {
+		if (gameDOM.gameGridItems[4].dataset.played == "no") {
+			player2.addToPlayer(5);
+			let src = "./circle-svgrepo-com.svg";
+			gameMetrics.playerTurn = 1;
+			gameDOM.startButton.innerHTML = `Hey <span>${player1.getPlayerName()}</span>, play your <span>X</span>`;
+			gameDOM.startButton.classList.remove("animate-text");
+
+			gameDOM.gameGridItems[4].children[0].setAttribute("src", src);
+			gameDOM.gameGridItems[4].dataset.played = "yes";
+			gameMetrics.turnCount += 1;
+			gameDOM.gameGrid.classList.remove("game-grid-disable");
+
+			if (gameMetrics.turnCount > 4) {
+				winCondition();
+			}
+		} else if (gameMetrics.turnCount < 3) {
+			randomAi();
+		} else if (gameMetrics.turnCount > 2) {
+			let opponentArray = player1.getPlayerArray();
+			let unplayedGridItems = [];
+			let allPlayCombinations = [];
+			let blockWin = [];
+
+			gameDOM.gameGridItems.forEach((item) => {
+				if (item.dataset.played == "no") {
+					unplayedGridItems.push(item.dataset.key);
+				}
+			});
+
+			unplayedGridItems.forEach((item) => {
+				allPlayCombinations.push(opponentArray.concat(+item));
+			});
+
+			//Take each Win Array sub-array
+			winArray.forEach((subArr) => {
+				//For each winning sub-array, take each potential play combination
+				if (blockWin.length == 0) {
+					allPlayCombinations.forEach((possibility) => {
+						//find out if any of the possibilities contains all of that winning sub-array's numbers
+						if (
+							blockWin.length == 0 &&
+							subArr.every((num) => {
+								return possibility.includes(num);
+							})
+						) {
+							//If it does contain a winning combination, push the last number of the possibility array to a block-win array
+							blockWin.push(possibility[possibility.length - 1]);
+						}
+					});
+				}
+			});
+
+			if (blockWin.length == 0) {
+				randomAi();
+			} else {
+				let keyToPlay = blockWin[0];
+				let item = document.querySelector(`[data-key = "${keyToPlay}"]`);
+				console.log(unplayedGridItems, keyToPlay);
+
+				player2.addToPlayer(+keyToPlay);
+				let src = "./circle-svgrepo-com.svg";
+				gameMetrics.playerTurn = 1;
+				gameDOM.startButton.innerHTML = `Hey <span>${player1.getPlayerName()}</span>, play your <span>X</span>`;
+				gameDOM.startButton.classList.remove("animate-text");
+
+				item.children[0].setAttribute("src", src);
+				item.dataset.played = "yes";
+				gameMetrics.turnCount += 1;
+				gameDOM.gameGrid.classList.remove("game-grid-disable");
+
+				if (gameMetrics.turnCount > 4) {
+					winCondition();
+				}
+			}
+		}
+	};
+
+	let playStyle = 6;
 	// Math.floor(Math.random()*10);
 
 	if (playStyle < 5) {
@@ -117,7 +192,7 @@ const gameLogic = (e) => {
 		setTimeout(() => {
 			gameDOM.subDisplay.style.opacity = 0;
 		}, 2000);
-		
+
 		//If grid item has not been played on:
 	} else if (gridItemState.played == "no") {
 		//manipulate player turn, src value, game message
@@ -131,7 +206,11 @@ const gameLogic = (e) => {
 			}, 50);
 			setTimeout(() => {
 				gameDOM.startButton.classList.remove("animate-text");
-				if (player2.getPlayerName() == "Computer" && gameMetrics.playerTurn == 2 && gameMetrics.winnerFound == "false") {
+				if (
+					player2.getPlayerName() == "Computer" &&
+					gameMetrics.playerTurn == 2 &&
+					gameMetrics.winnerFound == "false"
+				) {
 					playWithAi();
 				}
 			}, 1200);
@@ -154,8 +233,8 @@ const gameLogic = (e) => {
 	}
 
 	// if (gameMetrics.turnCount > 4) {
-		winCondition();
-	// } 
+	winCondition();
+	// }
 };
 
 //Function to store and check win condition
