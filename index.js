@@ -23,8 +23,8 @@ const playerFactory = () => {
 	};
 
 	const replay = () => {
-		_playerArray = []
-	}
+		_playerArray = [];
+	};
 
 	return {
 		getPlayerName,
@@ -348,11 +348,13 @@ const endGame = (arr, player) => {
 				gameDOM.startButton.innerHTML = `${player} wins... 😭`;
 			}
 			gameDOM.resetButton.style.opacity = "1";
+			gameDOM.restartButton.style.opacity = "1";
 			gameDOM.resetButton.scrollIntoView({ behavior: "smooth" });
 		}, 1000);
 	});
 	setTimeout(() => {
 		gameDOM.resetButton.style.display = "block";
+		gameDOM.restartButton.style.display = "block";
 		gameDOM.resetButton.scrollIntoView({ behavior: "smooth" });
 	}, 3000);
 };
@@ -373,9 +375,11 @@ const drawGame = () => {
 		gameDOM.startButton.style.transform = "scale(1)";
 		gameDOM.startButton.innerHTML = `Its a tie 🤝`;
 		gameDOM.resetButton.style.opacity = "1";
+		gameDOM.restartButton.style.opacity = "1";
 	}, 1000);
 	setTimeout(() => {
 		gameDOM.resetButton.style.display = "block";
+		gameDOM.restartButton.style.display = "block";
 		gameDOM.resetButton.scrollIntoView();
 	}, 3000);
 };
@@ -385,10 +389,23 @@ const playAgain = () => {
 	player2.replay();
 	gameMetrics.turnCount = 0;
 	gameMetrics.playerTurn = 1;
-	gameMetrics.winnerFound = "false"
+	gameMetrics.winnerFound = "false";
 	gameMetrics.aiType = undefined;
+	gameDOM.gameGridItems.forEach((item) => {
+		item.children[0].setAttribute("src", "");
+	});
+	gameDOM.gameSymbols.forEach((symbol) => {
+		symbol.style.zIndex = -3;
+		symbol.parentElement.style.background = "none";
+		symbol.parentElement.style.background = "none";
+	});
+	gameDOM.startButton.classList.remove("player-wins");
+	gameDOM.resetButton.style.opacity = "1";
+	gameDOM.restartButton.style.opacity = "1";
+	gameDOM.resetButton.style.display = "none";
+	gameDOM.restartButton.style.display = "none";
 	showForm();
-}
+};
 
 //Create Game Player Details Collection Form
 const showForm = () => {
@@ -467,6 +484,7 @@ const gameDOM = (() => {
 	let player2 = gameForm.querySelector('input[name="player2"]');
 	let overlay = document.querySelector(".overlay");
 	let resetButton = document.querySelector(".reset");
+	let restartButton = document.querySelector(".restart");
 	return {
 		gameInfo,
 		startButton,
@@ -482,6 +500,7 @@ const gameDOM = (() => {
 		player1,
 		player2,
 		resetButton,
+		restartButton,
 	};
 })();
 
@@ -501,4 +520,5 @@ const gameEvents = (() => {
 	gameDOM.resetButton.addEventListener("click", () => {
 		window.location.reload();
 	});
+	gameDOM.restartButton.addEventListener("click", playAgain);
 })();
