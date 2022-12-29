@@ -114,9 +114,12 @@ const playWithAi = () => {
 			randomAi();
 		} else if (gameMetrics.turnCount > 2) {
 			let opponentArray = player1.getPlayerArray();
+			let aiArray = player2.getPlayerArray();
 			let unplayedGridItems = [];
-			let allPlayCombinations = [];
+			let allPlayer1Combinations = [];
+			let allPlayer2Combinations = [];
 			let blockWin = [];
+			let takeWin = [];
 
 			gameDOM.gameGridItems.forEach((item) => {
 				if (item.dataset.played == "no") {
@@ -125,14 +128,15 @@ const playWithAi = () => {
 			});
 
 			unplayedGridItems.forEach((item) => {
-				allPlayCombinations.push(opponentArray.concat(+item));
+				allPlayer1Combinations.push(opponentArray.concat(+item));
+				allPlayer2Combinations.push(aiArray.concat(+item));
 			});
 
 			//Take each Win Array sub-array
 			winArray.forEach((subArr) => {
 				//For each winning sub-array, take each potential play combination
 				if (blockWin.length == 0) {
-					allPlayCombinations.forEach((possibility) => {
+					allPlayer1Combinations.forEach((possibility) => {
 						//find out if any of the possibilities contains all of that winning sub-array's numbers
 						if (
 							blockWin.length == 0 &&
@@ -145,12 +149,30 @@ const playWithAi = () => {
 						}
 					});
 				}
+
+				if (takeWin.length == 0) {
+					allPlayer2Combinations.forEach((possibility) => {
+						if (
+							takeWin.length == 0 &&
+							subArr.every((num) => {
+								return possibility.includes(num);
+							})
+						) {
+							takeWin.push(possibility[possibility.length - 1]);
+						}
+					});
+				}
 			});
 
-			if (blockWin.length == 0) {
+			if (blockWin.length == 0 && takeWin.length == 0) {
 				randomAi();
 			} else {
-				let keyToPlay = blockWin[0];
+				let keyToPlay;
+				if (takeWin.length > 0) {
+					keyToPlay = takeWin[0];
+				} else {
+					keyToPlay = blockWin[0];
+				}
 				let item = document.querySelector(`[data-key = "${keyToPlay}"]`);
 
 				player2.addToPlayer(+keyToPlay);
@@ -174,7 +196,7 @@ const playWithAi = () => {
 	let playStyle = Math.floor(Math.random() * 10);
 
 	if (!gameMetrics.aiType) {
-		if (playStyle < 3) {
+		if (playStyle < 4) {
 			gameMetrics.aiType = "random";
 		} else {
 			gameMetrics.aiType = "smart";
