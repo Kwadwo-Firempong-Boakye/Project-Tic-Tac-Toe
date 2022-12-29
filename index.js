@@ -174,7 +174,7 @@ const playWithAi = () => {
 	let playStyle = Math.floor(Math.random() * 10);
 
 	if (!gameMetrics.aiType) {
-		if (playStyle < 5) {
+		if (playStyle < 3) {
 			gameMetrics.aiType = "random";
 		} else {
 			gameMetrics.aiType = "smart";
